@@ -110,13 +110,36 @@ namespace Exercise1
                     Console.ResetColor();
                 }
             }
+            public void baca(SqlConnection con)
+            {
+                SqlCommand cmd = new SqlCommand("Select * From dbo.Tb_Pasien", con);
+                SqlDataReader r = cmd.ExecuteReader();
+                while (r.Read())
+                {
+                    for (int i = 0; i < r.FieldCount; i++)
+                    {
+                        Console.WriteLine(r.GetValue(i));
+                    }
+                    Console.WriteLine();
+                }
+                r.Close();
+            }
+            public void insert(string ID, string NmaPasien, string Almt, string TglDtg, string notlpn, SqlConnection con)
+            {
+
+                string str = "";
+                str = "insert into dbo.Tb_Pasien (ID,NamaPasien,AlamatPasien,TglDtg,PhonePasien)" + " values(@ID,@nma,@alamat,@TglDtg,@Phn)";
+                SqlCommand cmd = new SqlCommand(str, con);
+                cmd.CommandType = CommandType.Text;
+
+                cmd.Parameters.Add(new SqlParameter("ID", ID));
+                cmd.Parameters.Add(new SqlParameter("Nma", NmaPasien));
+                cmd.Parameters.Add(new SqlParameter("Alamat", Almt));
+                cmd.Parameters.Add(new SqlParameter("TglDtg", TglDtg));
+                cmd.Parameters.Add(new SqlParameter("Phn", notlpn));
+                cmd.ExecuteNonQuery();
+                Console.WriteLine("Data Berhasil Ditambahkan");
+            }
         }
-
-
-
-
-
-
-
     }
 }
